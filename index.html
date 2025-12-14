@@ -12,7 +12,7 @@
             --color-card-background: #ffffff; /* Clean White */
             --color-text-primary: #212529; /* Dark Grey/Near Black */
             --color-text-secondary: #6c757d; /* Medium Grey */
-            --color-accent: #004d99; /* Deep Ocean Blue Accent */
+            --color-accent: #004d99; /* Deep Ocean Blue Accent (UMT Theme) */
             --color-border: #e9ecef; /* Very Light Grey Border */
             --border-radius: 12px;
             --spacing: 16px;
@@ -65,12 +65,17 @@
             /* Medium box: Span 1 column, 1 row. Placed under Location */
             grid-column: span 1;
         }
+        
+        .card-reflection {
+             /* Small box: Span 1 column, 1 row. Placed next to Hobby (which is span 1) */
+            grid-column: span 1;
+        }
 
         .card-hobby {
             /* Small box: Span 1 column, 1 row. Placed under Case Study */
             grid-column: span 1;
         }
-
+        
         .card-playlist {
             /* Wide box at the bottom: Span 4 columns */
             grid-column: span 4;
@@ -86,7 +91,16 @@
             display: flex;
             flex-direction: column;
             border: 1px solid var(--color-border);
-            overflow: hidden; /* For rounded corners on content */
+            overflow: hidden; 
+            
+            /* Theme Tweak: Subtle Hover Effect */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .bento-card:hover {
+            transform: scale(1.02); /* Slight scale up (zoom) */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 10px 20px rgba(0, 0, 0, 0.05);
+            z-index: 10; 
         }
 
         .card-title {
@@ -100,10 +114,34 @@
             font-size: 1rem;
             color: var(--color-text-secondary);
             line-height: 1.6;
-            flex-grow: 1; /* Allows content to take up remaining space */
+            flex-grow: 1;
         }
 
-        /* Profile Card Specific Styles */
+        /* --- Profile Card Specific Styles (UPDATED FOR BG IMAGE) --- */
+        
+        .bento-card.card-profile {
+            background-image: url('bg.jpg');
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            /* Add an overlay for text legibility over the image */
+            /* Using background-blend-mode: multiply with a semi-transparent white background-color */
+            background-blend-mode: multiply; 
+            background-color: rgba(255, 255, 255, 0.85); /* Adjust for desired brightness/opacity */
+        }
+        
+        /* Ensure text is clearly visible above the background */
+        .card-profile .profile-details,
+        .card-profile .card-content,
+        .card-profile .social-links a {
+            color: var(--color-text-primary); 
+        }
+        
+        .card-profile .program {
+            color: var(--color-accent);
+        }
+        
         .card-profile .profile-details {
             display: flex;
             flex-direction: column;
@@ -114,14 +152,12 @@
         .card-profile .name {
             font-size: 2rem;
             font-weight: 800;
-            color: var(--color-text-primary);
             line-height: 1.1;
         }
 
         .card-profile .program {
             font-size: 1.15rem;
             font-weight: 500;
-            color: var(--color-accent);
         }
 
         .card-profile .tagline {
@@ -133,7 +169,6 @@
         .card-profile .social-links a {
             display: inline-block;
             margin-right: 12px;
-            color: var(--color-text-secondary);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
@@ -142,6 +177,9 @@
         .card-profile .social-links a:hover {
             color: var(--color-accent);
         }
+
+        /* --- End Profile Card Styles --- */
+
 
         /* Location Card Specific Styles */
         .card-location .time-display {
@@ -170,14 +208,6 @@
             margin-right: 4px;
         }
 
-        /* Playlist Card Specific Styles */
-        .card-playlist .card-content {
-            background-color: var(--color-border);
-            padding: var(--spacing);
-            border-radius: 8px;
-            text-align: center;
-        }
-        
         /* Hobby Card Specific Styles */
         .card-hobby .hobby-list {
             list-style: none;
@@ -193,6 +223,23 @@
             font-size: 0.9rem;
             font-weight: 500;
         }
+        
+        /* Reflection Card Specific Styles */
+        .card-reflection {
+            border-left: 4px solid var(--color-accent);
+        }
+        .card-reflection .card-content {
+            font-style: italic;
+            color: var(--color-text-primary);
+        }
+
+        /* Playlist Card Specific Styles */
+        .card-playlist .card-content {
+            background-color: var(--color-border);
+            padding: var(--spacing);
+            border-radius: 8px;
+            text-align: center;
+        }
 
         /* --- Media Queries (Responsiveness) --- */
 
@@ -204,7 +251,6 @@
             }
 
             .bento-card {
-                /* Reset desktop grid span for all cards */
                 grid-column: span 1 !important;
                 grid-row: span 1 !important;
             }
@@ -215,6 +261,12 @@
 
             .card-location .time-display {
                 font-size: 1.5rem;
+            }
+            
+            /* Disable hover zoom on small screens for better touch usability */
+            .bento-card:hover {
+                transform: none;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.03); 
             }
         }
     </style>
@@ -234,9 +286,9 @@
             </div>
             <div class="social-links" style="margin-top: auto; padding-top: var(--spacing);">
                 <span style="font-size: 0.9rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">Connect:</span>
-                <a href="#">LinkedIn</a>
-                <a href="#">GitHub</a>
-                <a href="#">UMT Portal</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">UMT Portal</a>
             </div>
         </div>
 
@@ -244,7 +296,8 @@
             <div class="card-title">Current Location</div>
             <div class="card-content">
                 <p style="font-weight: 600;">UMT Campus, Kuala Nerus</p>
-                <div class="time-display" style="margin-top: 8px;">2:19 PM</div> </div>
+                <div class="time-display" style="margin-top: 8px;">2:55 PM</div> 
+            </div>
         </div>
 
         <div class="bento-card card-tech-stack">
@@ -266,7 +319,7 @@
                 <p style="font-weight: 600; color: var(--color-accent); margin-bottom: 8px;">LifeStraw: Saving Lives</p>
                 <p>A look into how the LifeStraw innovation works as a portable water filter to provide immediate access to clean, safe drinking water in developing regions and emergency situations. </p>
             </div>
-            <a href="#" style="margin-top: auto; color: var(--color-accent); text-decoration: none; font-size: 0.9rem;">Learn More →</a>
+            <a href="#" style="margin-top: auto; color: var(--color-accent); text-decoration: none; font-size: 0.9rem;" target="_blank" rel="noopener noreferrer">Learn More →</a>
         </div>
 
         <div class="bento-card card-hobby">
@@ -279,6 +332,13 @@
                     <li>Coding</li>
                     <li>Reading Books</li>
                 </ul>
+            </div>
+        </div>
+        
+        <div class="bento-card card-reflection">
+            <div class="card-title">Why Food Tech Matters in Malaysia</div>
+            <div class="card-content">
+                <p>'Sustainable food security is crucial for our future. By optimizing local processing methods, we can reduce waste and improve nutrition.'</p>
             </div>
         </div>
 
