@@ -3,290 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab Timer | Scientific Precision</title>
+    <title>Student Bento Grid Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <style>
+        /* CSS Reset and Global Styles */
         :root {
-            --bg-color: #e3f2fd; /* Scientific Blue */
-            --card-bg: #ffffff;
-            --accent-blue: #1976d2;
-            --accent-running: #64b5f6;
-            --accent-success: #4caf50;
-            --text-dark: #263238;
-            --btn-gray: #eceff1;
-            --border-color: #cfd8dc;
+            --color-background: #f8f9fa; /* Soft White/Light Grey */
+            --color-card-background: #ffffff; /* Clean White */
+            --color-text-primary: #212529; /* Dark Grey/Near Black */
+            --color-text-secondary: #6c757d; /* Medium Grey */
+            --color-accent: #004d99; /* Deep Ocean Blue Accent (UMT Theme) */
+            --color-border: #e9ecef; /* Very Light Grey Border */
+            --border-radius: 12px;
+            --spacing: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            padding: var(--spacing);
             min-height: 100vh;
-            background-color: var(--bg-color);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-dark);
         }
 
-        .container {
-            text-align: center;
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(25, 118, 210, 0.1);
-            width: 380px;
-            border-top: 6px solid var(--accent-blue);
+        /* --- Bento Grid Layout --- */
+
+        .bento-grid-container {
+            display: grid;
+            gap: var(--spacing);
+            max-width: 1200px;
+            margin: 0 auto;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+            grid-template-rows: auto;
         }
 
-        #lab-icon {
-            font-size: 70px;
-            margin-bottom: 10px;
-            display: inline-block;
-            transition: transform 0.3s ease;
+        /* Define Grid Areas for Desktop Layout */
+        .card-profile {
+            /* Large box: Span 2 columns, 2 rows */
+            grid-column: span 2;
+            grid-row: span 2;
         }
 
-        .analyzing {
-            animation: pulse 1.5s infinite ease-in-out;
+        .card-location {
+            /* Small box: Span 1 column, 1 row */
+            grid-column: span 1;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .card-tech-stack {
+            /* Medium box: Span 1 column, 2 rows */
+            grid-column: span 1;
+            grid-row: span 2;
         }
 
-        #timer {
-            font-size: 48px;
-            font-weight: 300;
-            margin: 5px 0;
-            font-variant-numeric: tabular-nums;
+        .card-case-study {
+            /* Medium box: Span 1 column, 1 row. Placed under Location */
+            grid-column: span 1;
         }
-
-        .status-header {
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--accent-blue);
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 8px;
-            background-color: var(--btn-gray);
-            color: var(--text-dark);
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        button:hover {
-            filter: brightness(0.95);
-        }
-
-        button#start { background-color: var(--accent-blue); color: white; }
         
-        /* Checklist Styles */
-        .checklist-section {
-            text-align: left;
+        .card-reflection {
+             /* Small box: Span 1 column, 1 row. Placed next to Hobby (which is span 1) */
+            grid-column: span 1;
         }
 
-        .checklist-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .card-hobby {
+            /* Small box: Span 1 column, 1 row. Placed under Case Study */
+            grid-column: span 1;
+        }
+        
+        .card-playlist {
+            /* Wide box at the bottom: Span 4 columns */
+            grid-column: span 4;
+        }
+
+        /* --- Card Styles --- */
+
+        .bento-card {
+            background-color: var(--color-card-background);
+            border-radius: var(--border-radius);
+            padding: calc(var(--spacing) * 1.5);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.03);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            border: 1px solid var(--color-border);
+            overflow: hidden; 
+            
+            /* Theme Tweak: Subtle Hover Effect */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .bento-card:hover {
+            transform: scale(1.02); /* Slight scale up (zoom) */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 10px 20px rgba(0, 0, 0, 0.05);
+            z-index: 10; 
         }
 
-        .input-group {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing);
+            color: var(--color-text-primary);
         }
 
-        input[type="text"] {
+        .card-content {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
             flex-grow: 1;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            outline: none;
         }
 
-        .task-list {
-            list-style: none;
-            padding: 0;
-            max-height: 200px;
-            overflow-y: auto;
+        /* --- Profile Card Specific Styles (UPDATED FOR BG IMAGE) --- */
+        
+        .bento-card.card-profile {
+            background-image: url('bg.jpg');
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            /* Add an overlay for text legibility over the image */
+            /* Using background-blend-mode: multiply with a semi-transparent white background-color */
+            background-blend-mode: multiply; 
+            background-color: rgba(255, 255, 255, 0.85); /* Adjust for desired brightness/opacity */
         }
-
-        .task-item {
-            padding: 8px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
+        
+        /* Ensure text is clearly visible above the background */
+        .card-profile .profile-details,
+        .card-profile .card-content,
+        .card-profile .social-links a {
+            color: var(--color-text-primary); 
+        }
+        
+        .card-profile .program {
+            color: var(--color-accent);
+        }
+        
+        .card-profile .profile-details {
             display: flex;
-            align-items: center;
-            transition: background 0.2s;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: var(--spacing);
         }
 
-        .task-item:hover { background: #f9f9f9; }
-
-        .task-item.completed {
-            text-decoration: line-through;
-            color: #b0bec5;
+        .card-profile .name {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.1;
         }
 
-        .clear-btn {
-            font-size: 0.7rem;
+        .card-profile .program {
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        .card-profile .tagline {
+            font-style: italic;
+            margin-top: 8px;
+            color: var(--color-text-secondary);
+        }
+
+        .card-profile .social-links a {
+            display: inline-block;
+            margin-right: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .card-profile .social-links a:hover {
+            color: var(--color-accent);
+        }
+
+        /* --- End Profile Card Styles --- */
+
+
+        /* Location Card Specific Styles */
+        .card-location .time-display {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        /* Tech Stack/Subjects Card Specific Styles */
+        .card-tech-stack .subject-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .card-tech-stack .subject-list li {
+            padding: 6px 0;
+            border-bottom: 1px solid var(--color-border);
+            font-weight: 500;
+        }
+        .card-tech-stack .subject-list li:last-child {
+            border-bottom: none;
+        }
+        .card-tech-stack .subject-list li::before {
+            content: '→ ';
+            color: var(--color-accent);
+            font-weight: 900;
+            margin-right: 4px;
+        }
+
+        /* Hobby Card Specific Styles */
+        .card-hobby .hobby-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .card-hobby .hobby-list li {
+            background-color: var(--color-border);
+            color: var(--color-text-primary);
+            display: inline-block;
             padding: 4px 8px;
-            background: #ffebee;
-            color: #c62828;
+            margin: 0 8px 8px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Reflection Card Specific Styles */
+        .card-reflection {
+            border-left: 4px solid var(--color-accent);
+        }
+        .card-reflection .card-content {
+            font-style: italic;
+            color: var(--color-text-primary);
+        }
+
+        /* Playlist Card Specific Styles */
+        .card-playlist .card-content {
+            background-color: var(--color-border);
+            padding: var(--spacing);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* --- Media Queries (Responsiveness) --- */
+
+        /* Mobile Layout: Stacked Vertically */
+        @media (max-width: 768px) {
+            .bento-grid-container {
+                grid-template-columns: 1fr; /* Single column on mobile */
+                gap: var(--spacing);
+            }
+
+            .bento-card {
+                grid-column: span 1 !important;
+                grid-row: span 1 !important;
+            }
+
+            .card-profile .name {
+                font-size: 1.8rem;
+            }
+
+            .card-location .time-display {
+                font-size: 1.5rem;
+            }
+            
+            /* Disable hover zoom on small screens for better touch usability */
+            .bento-card:hover {
+                transform: none;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.03); 
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="status-header" id="status-text">Laboratory Idle</div>
-        <div id="lab-icon">🧪</div>
-        <div id="timer">15:00</div>
+    <main class="bento-grid-container">
+
+        <div class="bento-card card-profile">
+            <div class="profile-details">
+                <div class="name">DHANYA SHIRI SOKALINGAM</div>
+                <div class="program">Food Tech, Year 1</div>
+            </div>
+            <div class="card-content">
+                <p class="tagline">'No Fear, Just Clear.'</p>
+                <p style="margin-top: 15px;">A first-year Food Technology student at Universiti Malaysia Terengganu (UMT). Focused on building a strong foundational knowledge in the chemical and physical aspects of food science.</p>
+            </div>
+            <div class="social-links" style="margin-top: auto; padding-top: var(--spacing);">
+                <span style="font-size: 0.9rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">Connect:</span>
+                <a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">UMT Portal</a>
+            </div>
+        </div>
+
+        <div class="bento-card card-location">
+            <div class="card-title">Current Location</div>
+            <div class="card-content">
+                <p style="font-weight: 600;">UMT Campus, Kuala Nerus</p>
+                <div class="time-display" style="margin-top: 8px;">2:55 PM</div> 
+            </div>
+        </div>
+
+        <div class="bento-card card-tech-stack">
+            <div class="card-title">Core Subjects</div>
+            <div class="card-content">
+                <ul class="subject-list">
+                    <li>Organic Chemistry</li>
+                    <li>Biochemistry</li>
+                    <li>Physical Chemistry</li>
+                    <li>Math Engineering</li>
+                </ul>
+                <p style="margin-top: var(--spacing); font-size: 0.9rem;">Building a strong scientific base crucial for advanced Food Technology studies.</p>
+            </div>
+        </div>
+
+        <div class="bento-card card-case-study">
+            <div class="card-title">Case Study Focus</div>
+            <div class="card-content">
+                <p style="font-weight: 600; color: var(--color-accent); margin-bottom: 8px;">LifeStraw: Saving Lives</p>
+                <p>A look into how the LifeStraw innovation works as a portable water filter to provide immediate access to clean, safe drinking water in developing regions and emergency situations. </p>
+            </div>
+            <a href="#" style="margin-top: auto; color: var(--color-accent); text-decoration: none; font-size: 0.9rem;" target="_blank" rel="noopener noreferrer">Learn More →</a>
+        </div>
+
+        <div class="bento-card card-hobby">
+            <div class="card-title">Interests & Hobbies</div>
+            <div class="card-content">
+                <ul class="hobby-list">
+                    <li>Drawing</li>
+                    <li>Animation</li>
+                    <li>Editing</li>
+                    <li>Coding</li>
+                    <li>Reading Books</li>
+                </ul>
+            </div>
+        </div>
         
-        <div class="controls">
-            <button id="start" onclick="startAnalysis()">Start</button>
-            <button onclick="pauseAnalysis()">Pause</button>
-            <button id="reset" onclick="resetLab()">Reset</button>
+        <div class="bento-card card-reflection">
+            <div class="card-title">Why Food Tech Matters in Malaysia</div>
+            <div class="card-content">
+                <p>'Sustainable food security is crucial for our future. By optimizing local processing methods, we can reduce waste and improve nutrition.'</p>
+            </div>
         </div>
 
-        <div class="checklist-section">
-            <div class="checklist-title">
-                LAB CHECKLIST 
-                <button class="clear-btn" onclick="clearTasks()">Clear All</button>
+        <div class="bento-card card-playlist">
+            <div class="card-title">Current Study Vibe</div>
+            <div class="card-content">
+                <p style="color: var(--color-text-primary); font-style: italic;"><iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/6HZILIRieu8S0iqY8kIKhj?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></p>
+                <p style="font-size: 0.9rem; margin-top: 8px;">Always on the lookout for instrumental tracks that boost concentration for deep learning.</p>
             </div>
-            <div class="input-group">
-                <input type="text" id="taskInput" placeholder="Add protocol step...">
-                <button onclick="addTask()">Add</button>
-            </div>
-            <ul class="task-list" id="taskList"></ul>
         </div>
-    </div>
 
-    <audio id="alarm" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+    </main>
 
-    <script>
-        // --- Timer Logic ---
-        const DEFAULT_TIME = 15 * 60;
-        let timeLeft = DEFAULT_TIME;
-        let timerId = null;
-        let isRunning = false;
-
-        const labIcon = document.getElementById('lab-icon');
-        const timerDisplay = document.getElementById('timer');
-        const statusText = document.getElementById('status-text');
-        const alarm = document.getElementById('alarm');
-
-        function updateDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        function startAnalysis() {
-            if (isRunning) return;
-            isRunning = true;
-            labIcon.innerText = "🔬";
-            labIcon.classList.add('analyzing');
-            statusText.innerText = "Analysis in Progress";
-            timerId = setInterval(() => {
-                timeLeft--;
-                updateDisplay();
-                if (timeLeft <= 0) {
-                    clearInterval(timerId);
-                    completeAnalysis();
-                }
-            }, 1000);
-        }
-
-        function pauseAnalysis() {
-            clearInterval(timerId);
-            isRunning = false;
-            labIcon.classList.remove('analyzing');
-            statusText.innerText = "Analysis Paused";
-        }
-
-        function resetLab() {
-            clearInterval(timerId);
-            isRunning = false;
-            timeLeft = DEFAULT_TIME;
-            updateDisplay();
-            labIcon.innerText = "🧪";
-            labIcon.classList.remove('analyzing');
-            statusText.innerText = "Laboratory Idle";
-        }
-
-        function completeAnalysis() {
-            isRunning = false;
-            labIcon.innerText = "✅";
-            labIcon.classList.remove('analyzing');
-            statusText.innerText = "Analysis Complete";
-            alarm.play();
-        }
-
-        // --- Checklist Logic ---
-        const taskInput = document.getElementById('taskInput');
-        const taskList = document.getElementById('taskList');
-        let tasks = JSON.parse(localStorage.getItem('labTasks')) || [];
-
-        function renderTasks() {
-            taskList.innerHTML = '';
-            tasks.forEach((task, index) => {
-                const li = document.createElement('li');
-                li.className = `task-item ${task.completed ? 'completed' : ''}`;
-                li.textContent = task.text;
-                li.onclick = () => toggleTask(index);
-                taskList.appendChild(li);
-            });
-            localStorage.setItem('labTasks', JSON.stringify(tasks));
-        }
-
-        function addTask() {
-            const text = taskInput.value.trim();
-            if (text) {
-                tasks.push({ text, completed: false });
-                taskInput.value = '';
-                renderTasks();
-            }
-        }
-
-        function toggleTask(index) {
-            tasks[index].completed = !tasks[index].completed;
-            renderTasks();
-        }
-
-        function clearTasks() {
-            tasks = [];
-            renderTasks();
-        }
-
-        // Enter key support for input
-        taskInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addTask();
-        });
-
-        // Init
-        updateDisplay();
-        renderTasks();
-    </script>
 </body>
 </html>
